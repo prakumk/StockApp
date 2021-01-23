@@ -20,7 +20,7 @@ public class TickerDetails extends BaseResponse {
 
     class SummaryDetails{
         PreviousClose previousClose;
-        Bid bid;
+        Open open;
     }
 
     class PreviousClose{
@@ -28,7 +28,7 @@ public class TickerDetails extends BaseResponse {
     }
 
 
-    class Bid{
+    class Open{
         double raw;
     }
 
@@ -55,7 +55,7 @@ public class TickerDetails extends BaseResponse {
 
 
     public double getCurrentPrice(){
-        return summaryDetail.bid.raw;
+        return summaryDetail.open.raw;
     }
 
 }

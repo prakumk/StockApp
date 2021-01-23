@@ -24,6 +24,10 @@ public interface DaoAccess {
     LiveData<StockModel> getStock(int taskId);
 
 
+    @Query("SELECT * FROM StockModel WHERE symbol =:symbol")
+    LiveData<StockModel> getStock(String symbol);
+
+
     @Update
     void updateStock(StockModel note);
 

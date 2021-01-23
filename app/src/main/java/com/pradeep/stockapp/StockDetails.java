@@ -1,8 +1,11 @@
 package com.pradeep.stockapp;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 
 import android.os.Bundle;
 import android.view.View;
@@ -21,6 +24,7 @@ import com.pradeep.stockapp.graph.FactoryMPAndroidChart;
 import com.pradeep.stockapp.RetroAPIModels.TickerChart;
 import com.pradeep.stockapp.retrofit_api.ApiClient;
 import com.pradeep.stockapp.retrofit_api.RetrofitInterface;
+import com.pradeep.stockapp.room_db.StockModel;
 import com.pradeep.stockapp.room_db.StockRepository;
 
 import java.util.Calendar;
@@ -158,6 +162,7 @@ public class StockDetails extends AppCompatActivity {
     }
 
     public void watchlist(View view) {
+        AppUtils.showToast(StockDetails.this,"Adding to watchlist");
         Single<TickerDetails> chartSingle = apiClient.fetchTickerDetails(stock_symbol);
         chartSingle.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -168,15 +173,7 @@ public class StockDetails extends AppCompatActivity {
 
                     @Override
                     public void onSuccess(TickerDetails tickerDetails) {
-                        if(tickerDetails.getError() == null) {
-//                            (String name, String type, String symbol, double rate, double curr_rate)
-
-                            stockRepository.insertStock(tickerDetails.getLongName(),tickerDetails.getExchange(),tickerDetails.getSymbol(),tickerDetails.getPreviousClose(),tickerDetails.getCurrentPrice());
-                        }
-                        else
-                        {
-                            AppUtils.showToast(StockDetails.this,"Unable to mark to watchlist");
-                        }
+                        addToWatchList(tickerDetails);
                     }
 
                     @Override
@@ -184,6 +181,35 @@ public class StockDetails extends AppCompatActivity {
                         AppUtils.showToast(StockDetails.this,"Some Error occurred while loading data");
                     }
                 });
+
+    }
+
+    public void addToWatchList(TickerDetails tickerDetails)
+    {
+        if(tickerDetails.getError() == null) {
+//                            (String name, String type, String symbol, double rate, double curr_rate)
+            LiveData<StockModel> d = stockRepository.getStock(stock_symbol);
+            if(!d.hasActiveObservers())
+                d.observe(this, new Observer<StockModel>() {
+                    @Override
+                    public void onChanged(@Nullable StockModel stockModel){
+                        if(stockModel == null) {
+                            stockRepository.insertStock(tickerDetails.getLongName(),tickerDetails.getExchange(),tickerDetails.getSymbol(),tickerDetails.getPreviousClose(),tickerDetails.getCurrentPrice());
+                        } else {
+                            stockModel.setRate(tickerDetails.getPreviousClose());
+                            stockModel.setCurr_rate(tickerDetails.getCurrentPrice());
+                            stockRepository.updateStock(stockModel);
+                        }
+                        AppUtils.showToast(StockDetails.this,"Successfully Added to watchlist");
+                        d.removeObserver(this);
+                    }
+                });
+        }
+        else
+        {
+            AppUtils.showToast(StockDetails.this,"Unable to mark to watchlist");
+        }
+
 
     }
 }
