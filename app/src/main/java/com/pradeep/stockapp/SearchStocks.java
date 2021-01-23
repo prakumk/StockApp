@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -51,6 +52,7 @@ public class SearchStocks extends AppCompatActivity implements RoomItemClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_stocks);
+        setTitle("Search New Stock");
         all_stocks=new ArrayList<>();
         apiClient = ApiClient.getClient().create(RetrofitInterface.class);
         initView();
@@ -137,6 +139,6 @@ public class SearchStocks extends AppCompatActivity implements RoomItemClickList
 
     @Override
     public void onItemClick(String symbol) {
-
+        Toast.makeText(this,"Clicked "+symbol,Toast.LENGTH_SHORT).show();
     }
 }

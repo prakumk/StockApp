@@ -41,6 +41,7 @@ public class MainActivity extends AppCompatActivity implements RoomItemClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        setTitle("StockApp (WatchList)");
         stockRepository = new StockRepository(this);
         initView();
     }
