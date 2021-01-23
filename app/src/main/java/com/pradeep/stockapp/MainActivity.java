@@ -37,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
     private void initView() {
         searchView = findViewById(R.id.search_view);
         recyclerView = findViewById(R.id.recycler_view);
+        no_fav_stock = findViewById(R.id.no_fav_stock);
+        fav_stocks = findViewById(R.id.fav_stocks);
         initRecyclerView(DummyData.getDummyName());
 
 
