@@ -18,13 +18,13 @@ import com.pradeep.stockapp.domain.Name;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AnimalsAdapter extends RecyclerView.Adapter<AnimalsAdapter.AnimalsViewHolder> implements Filterable {
+public class StockAdapter extends RecyclerView.Adapter<StockAdapter.AnimalsViewHolder> implements Filterable {
 
     private Context context;
     private List<Name> nameList;
     private List<Name> filteredNameList;
 
-    public AnimalsAdapter(Context context, List<Name> nameList) {
+    public StockAdapter(Context context, List<Name> nameList) {
         super();
         this.context = context;
         this.nameList = nameList;

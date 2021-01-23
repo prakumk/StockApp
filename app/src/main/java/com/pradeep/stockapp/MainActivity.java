@@ -9,7 +9,7 @@ import android.os.Bundle;
 
 import com.pradeep.stockapp.common.DummyData;
 import com.pradeep.stockapp.domain.Name;
-import com.pradeep.stockapp.view.AnimalsAdapter;
+import com.pradeep.stockapp.view.StockAdapter;
 
 import java.util.List;
 
@@ -17,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
 
     private SearchView searchView;
     private RecyclerView recyclerView;
-    private AnimalsAdapter animalsAdapter;
+    private StockAdapter stockAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,23 +34,23 @@ public class MainActivity extends AppCompatActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                animalsAdapter.getFilter().filter(query);
+                stockAdapter.getFilter().filter(query);
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                animalsAdapter.getFilter().filter(newText);
+                stockAdapter.getFilter().filter(newText);
                 return false;
             }
         });
     }
 
     private void initRecyclerView(List<Name> nameList) {
-        animalsAdapter = new AnimalsAdapter(this, nameList);
+        stockAdapter = new StockAdapter(this, nameList);
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(animalsAdapter);
+        recyclerView.setAdapter(stockAdapter);
     }
 }
