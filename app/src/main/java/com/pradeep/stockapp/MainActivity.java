@@ -2,12 +2,15 @@ package com.pradeep.stockapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import com.pradeep.stockapp.common.DummyData;
+import com.pradeep.stockapp.custom_components.SimpleListDividerDecorator;
 import com.pradeep.stockapp.domain.Name;
 import com.pradeep.stockapp.view.StockAdapter;
 
@@ -30,6 +33,10 @@ public class MainActivity extends AppCompatActivity {
         searchView = findViewById(R.id.search_view);
         recyclerView = findViewById(R.id.recycler_view);
         initRecyclerView(DummyData.getDummyName());
+
+
+        Drawable v = ContextCompat.getDrawable(this, R.drawable.list_divider_h);
+        recyclerView.addItemDecoration(new SimpleListDividerDecorator(v, true));
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
