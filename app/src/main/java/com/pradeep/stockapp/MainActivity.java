@@ -15,9 +15,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.pradeep.stockapp.common.DummyData;
 import com.pradeep.stockapp.custom_components.SimpleListDividerDecorator;
-import com.pradeep.stockapp.domain.Name;
 import com.pradeep.stockapp.room_db.StockModel;
 import com.pradeep.stockapp.room_db.StockRepository;
 import com.pradeep.stockapp.view.StockAdapter;
@@ -125,5 +123,9 @@ public class MainActivity extends AppCompatActivity {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(stockAdapter);
+    }
+
+    private void visitAddNewStockScreen(){
+
     }
 }
