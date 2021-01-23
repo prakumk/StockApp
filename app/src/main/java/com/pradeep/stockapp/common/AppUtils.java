@@ -1,6 +1,7 @@
 package com.pradeep.stockapp.common;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Base64;
 import android.widget.Toast;
 
@@ -17,6 +18,7 @@ public class AppUtils {
 
 
     public static final String STOCK_SYMBOL_EXTRA = "stock_symbol_extra";
+    public static final String STOCK_UPDATED = "stocks_updated";
 
     public static Date getCurrentDateTime(){
         Date currentDate =  Calendar.getInstance().getTime();
@@ -40,5 +42,13 @@ public class AppUtils {
 
     public static void showToast(Context context,String message){
         Toast.makeText(context,message,Toast.LENGTH_SHORT).show();
+    }
+
+
+
+    public static void updateStocks(Context context){
+        Intent intent = new Intent();
+        intent.setAction(AppUtils.STOCK_UPDATED);
+        context.sendBroadcast(intent);
     }
 }

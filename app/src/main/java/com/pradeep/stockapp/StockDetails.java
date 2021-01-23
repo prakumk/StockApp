@@ -200,6 +200,7 @@ public class StockDetails extends AppCompatActivity {
                             stockModel.setCurr_rate(tickerDetails.getCurrentPrice());
                             stockRepository.updateStock(stockModel);
                         }
+                        AppUtils.updateStocks(StockDetails.this);
                         AppUtils.showToast(StockDetails.this,"Successfully Added to watchlist");
                         d.removeObserver(this);
                     }
@@ -209,7 +210,7 @@ public class StockDetails extends AppCompatActivity {
         {
             AppUtils.showToast(StockDetails.this,"Unable to mark to watchlist");
         }
-
-
     }
+
+
 }

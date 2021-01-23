@@ -8,7 +8,10 @@ import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
@@ -26,6 +29,8 @@ import com.pradeep.stockapp.view.StockAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
+import timber.log.Timber;
+
 public class MainActivity extends AppCompatActivity implements RoomItemClickListner {
 
     private SearchView searchView;
@@ -35,6 +40,7 @@ public class MainActivity extends AppCompatActivity implements RoomItemClickList
     private LinearLayout fav_stocks;
     private FloatingActionButton add_new_stock;
     StockRepository stockRepository ;
+    BroadcastReceiver broadcastReceiver;
 
     private List<StockModel> all_stocks=new ArrayList<>();
 
@@ -53,6 +59,16 @@ public class MainActivity extends AppCompatActivity implements RoomItemClickList
         no_fav_stock = findViewById(R.id.no_fav_stock);
         fav_stocks = findViewById(R.id.fav_stocks);
         add_new_stock = findViewById(R.id.add_new_stock);
+
+        broadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                Timber.i("Received Broadcast");
+                if (intent.getAction().equals(AppUtils.STOCK_UPDATED)){
+                    getAllStocks();
+                }
+            }
+        };
         getAllStocks();
 
 
@@ -94,6 +110,29 @@ public class MainActivity extends AppCompatActivity implements RoomItemClickList
             }
         });
     }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        try {
+            this.registerReceiver(broadcastReceiver, new IntentFilter(AppUtils.STOCK_UPDATED));
+        } catch (Exception ignored) {
+
+        }
+    }
+
+    @Override
+    protected void onDestroy(){
+        super.onDestroy();
+        try {
+            this.unregisterReceiver(broadcastReceiver);
+        } catch (Exception ignored) {
+
+        }
+    }
+
 
     private void notifyAdapter(List<StockModel> stocks){
         this.all_stocks = stocks;

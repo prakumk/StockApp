@@ -70,7 +70,7 @@ public class SearchStocks extends AppCompatActivity implements RoomItemClickList
         searchView_new.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                if(query.length()>3)
+                if(query.length()>2)
                 {
                     callAPI(query);
                 }
@@ -79,7 +79,7 @@ public class SearchStocks extends AppCompatActivity implements RoomItemClickList
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                if(newText.length()>3)
+                if(newText.length()>2)
                 {
                     callAPI(newText);
                 }
@@ -143,5 +143,6 @@ public class SearchStocks extends AppCompatActivity implements RoomItemClickList
         Intent i = new Intent(this,StockDetails.class);
         i.putExtra(AppUtils.STOCK_SYMBOL_EXTRA,symbol);
         startActivity(i);
+        finish();
     }
 }
