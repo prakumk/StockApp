@@ -8,6 +8,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.pradeep.stockapp.common.DummyData;
 import com.pradeep.stockapp.custom_components.SimpleListDividerDecorator;
@@ -21,6 +24,8 @@ public class MainActivity extends AppCompatActivity {
     private SearchView searchView;
     private RecyclerView recyclerView;
     private StockAdapter stockAdapter;
+    private LinearLayout no_fav_stock;
+    private LinearLayout fav_stocks;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +60,15 @@ public class MainActivity extends AppCompatActivity {
 
     private void initRecyclerView(List<Name> nameList) {
         stockAdapter = new StockAdapter(this, nameList);
+        if (nameList.size()>0){
+            fav_stocks.setVisibility(View.VISIBLE);
+            no_fav_stock.setVisibility(View.INVISIBLE);
+        }
+        else
+        {
+            fav_stocks.setVisibility(View.INVISIBLE);
+            no_fav_stock.setVisibility(View.VISIBLE);
+        }
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
