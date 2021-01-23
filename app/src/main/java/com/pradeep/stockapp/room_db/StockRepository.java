@@ -19,8 +19,8 @@ public class StockRepository {
         stockDatabase = Room.databaseBuilder(context, StockDatabase.class, DB_NAME).build();
     }
 
-    public void insertTask(String name,
-                           String type,String symbol,double rate,double curr_rate) {
+    public void insertStock(String name,
+                            String type, String symbol, double rate, double curr_rate) {
 
         StockModel stock = new StockModel();
         stock.setName(name);

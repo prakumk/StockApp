@@ -15,6 +15,7 @@ import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.ValueFormatter;
+import com.pradeep.stockapp.RetroAPIModels.TickerDetails;
 import com.pradeep.stockapp.common.AppUtils;
 import com.pradeep.stockapp.graph.FactoryMPAndroidChart;
 import com.pradeep.stockapp.RetroAPIModels.TickerChart;
@@ -157,6 +158,32 @@ public class StockDetails extends AppCompatActivity {
     }
 
     public void watchlist(View view) {
-        stockRepository.insertTask();
+        Single<TickerDetails> chartSingle = apiClient.fetchTickerDetails(stock_symbol);
+        chartSingle.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new SingleObserver<TickerDetails>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                    }
+
+                    @Override
+                    public void onSuccess(TickerDetails tickerDetails) {
+                        if(tickerDetails.getError() == null) {
+//                            (String name, String type, String symbol, double rate, double curr_rate)
+
+                            stockRepository.insertStock(tickerDetails.getLongName(),tickerDetails.getExchange(),tickerDetails.getSymbol(),tickerDetails.getPreviousClose(),tickerDetails.getCurrentPrice());
+                        }
+                        else
+                        {
+                            AppUtils.showToast(StockDetails.this,"Unable to mark to watchlist");
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        AppUtils.showToast(StockDetails.this,"Some Error occurred while loading data");
+                    }
+                });
+
     }
 }

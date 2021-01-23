@@ -129,10 +129,10 @@ public class MainActivity extends AppCompatActivity implements RoomItemClickList
     }
 
     private void visitAddNewStockScreen(){
-//        stockRepository.insertTask("HTMedia", "BSE","HTMEDIA.BO",12.3,34.6);
-//        stockRepository.insertTask("Vodafone", "BSE","IDEA.BO",70.1,77.8);
-//        stockRepository.insertTask("Reliance", "BSE","RELIANCE.BO",234.8,237.2);
-//        stockRepository.insertTask("TATA Motors", "NSE","TATAMOTORS.NS",234.0,228.7);
+//        stockRepository.insertStock("HTMedia", "BSE","HTMEDIA.BO",12.3,34.6);
+//        stockRepository.insertStock("Vodafone", "BSE","IDEA.BO",70.1,77.8);
+//        stockRepository.insertStock("Reliance", "BSE","RELIANCE.BO",234.8,237.2);
+//        stockRepository.insertStock("TATA Motors", "NSE","TATAMOTORS.NS",234.0,228.7);
 
         startActivity(new Intent(this,SearchStocks.class));
     }
