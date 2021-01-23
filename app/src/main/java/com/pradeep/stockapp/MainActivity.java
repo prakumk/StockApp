@@ -77,10 +77,10 @@ public class MainActivity extends AppCompatActivity {
         add_new_stock.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                stockRepository.insertTask("HTMedia", "BSE","HTMEDIA.BO",12,34);
-                stockRepository.insertTask("Vodafone", "BSE","IDEA.BO",70,77);
-                stockRepository.insertTask("Reliance", "BSE","RELIANCE.BO",234,237);
-                stockRepository.insertTask("TATA Motors", "NSE","TATAMOTORS.NS",234,228);
+                stockRepository.insertTask("HTMedia", "BSE","HTMEDIA.BO",12.3,34.6);
+                stockRepository.insertTask("Vodafone", "BSE","IDEA.BO",70.1,77.8);
+                stockRepository.insertTask("Reliance", "BSE","RELIANCE.BO",234.8,237.2);
+                stockRepository.insertTask("TATA Motors", "NSE","TATAMOTORS.NS",234.0,228.7);
             }
         });
     }

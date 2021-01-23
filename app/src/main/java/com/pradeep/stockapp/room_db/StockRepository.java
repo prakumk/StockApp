@@ -20,7 +20,7 @@ public class StockRepository {
     }
 
     public void insertTask(String name,
-                           String type,String symbol,int rate,int curr_rate) {
+                           String type,String symbol,double rate,double curr_rate) {
 
         StockModel stock = new StockModel();
         stock.setName(name);

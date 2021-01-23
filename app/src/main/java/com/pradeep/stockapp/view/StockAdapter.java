@@ -1,6 +1,7 @@
 package com.pradeep.stockapp.view;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,13 +14,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 
 import com.pradeep.stockapp.R;
-import com.pradeep.stockapp.domain.Name;
 import com.pradeep.stockapp.room_db.StockModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class StockAdapter extends RecyclerView.Adapter<StockAdapter.AnimalsViewHolder> implements Filterable {
+public class StockAdapter extends RecyclerView.Adapter<StockAdapter.stockViewHolder> implements Filterable {
 
     private Context context;
     private List<StockModel> nameList;
@@ -34,14 +34,43 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.AnimalsViewH
 
     @NonNull
     @Override
-    public AnimalsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public stockViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.list_item, parent, false);
-        return new AnimalsViewHolder(view);
+        return new stockViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull AnimalsViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull stockViewHolder holder, int position) {
         holder.tvName.setText(filteredNameList.get(position).getName());
+        holder.type.setText(filteredNameList.get(position).getType());
+        holder.price.setText(String.valueOf(filteredNameList.get(position).getCurr_rate()));
+        if (filteredNameList.get(position).getCurr_rate()>filteredNameList.get(position).getRate()){
+            holder.price.setTextColor(Color.parseColor("#73BD73"));
+        }
+        else if(filteredNameList.get(position).getCurr_rate()==filteredNameList.get(position).getRate()){
+            holder.price.setTextColor(Color.parseColor("#F7D438"));
+        }
+        else
+        {
+            holder.price.setTextColor(Color.parseColor("#E35E59"));
+        }
+        double diff = filteredNameList.get(position).getCurr_rate()-filteredNameList.get(position).getRate();
+        double per = 0;
+        try {
+            per = diff * 100 / filteredNameList.get(position).getRate();
+        }
+        catch (Exception e){
+
+        }
+        if(diff>=0){
+            String text = "+"+String.format("%.2f", diff)+" ("+String.format("%.2f", per)+"%)";
+            holder.diff.setText(text);
+        }
+        else
+        {
+            String text = ""+String.format("%.2f", diff)+" ("+String.format("%.2f", per)+"%)";
+            holder.diff.setText(text);
+        }
     }
 
     @Override
@@ -79,13 +108,22 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.AnimalsViewH
         };
     }
 
-    public class AnimalsViewHolder extends RecyclerView.ViewHolder {
+    public class stockViewHolder extends RecyclerView.ViewHolder {
 
         private AppCompatTextView tvName;
+        private AppCompatTextView price;
+        private AppCompatTextView type;
+        private AppCompatTextView diff;
 
-        public AnimalsViewHolder(@NonNull View itemView) {
+
+
+        public stockViewHolder(@NonNull View itemView) {
             super(itemView);
             tvName = itemView.findViewById(R.id.name);
+            price = itemView.findViewById(R.id.price);
+            type = itemView.findViewById(R.id.type);
+            diff = itemView.findViewById(R.id.diff);
+
         }
     }
 }

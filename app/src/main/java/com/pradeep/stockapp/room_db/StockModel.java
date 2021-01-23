@@ -17,8 +17,8 @@ public class StockModel implements Serializable {
     private String name;
     private String type;
     private String symbol;
-    private int rate;
-    private int curr_rate;
+    private double rate;
+    private double curr_rate;
 
 
     @ColumnInfo(name = "created_at")
@@ -61,19 +61,19 @@ public class StockModel implements Serializable {
         this.type = type;
     }
 
-    public int getRate() {
+    public double getRate() {
         return rate;
     }
 
-    public void setRate(int rate) {
+    public void setRate(double rate) {
         this.rate = rate;
     }
 
-    public int getCurr_rate() {
+    public double getCurr_rate() {
         return curr_rate;
     }
 
-    public void setCurr_rate(int curr_rate) {
+    public void setCurr_rate(double curr_rate) {
         this.curr_rate = curr_rate;
     }
 
