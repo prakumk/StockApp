@@ -47,7 +47,13 @@ public class RetroStockAdapter extends RecyclerView.Adapter<RetroStockAdapter.st
 
     @Override
     public void onBindViewHolder(@NonNull stockViewHolder holder, int position) {
-        holder.tvName.setText(nameList.get(position).getLongname());
+        if (null == nameList.get(position).getLongname() || nameList.get(position).getLongname().equals(""))
+        {
+            holder.tvName.setText(nameList.get(position).getSymbol());
+        }
+        else {
+            holder.tvName.setText(nameList.get(position).getLongname());
+        }
         holder.type.setText(nameList.get(position).getExchange());
         holder.view.setTag(nameList.get(position).getSymbol());
     }
