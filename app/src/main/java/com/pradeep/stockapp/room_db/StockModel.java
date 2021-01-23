@@ -16,6 +16,7 @@ public class StockModel implements Serializable {
 
     private String name;
     private String type;
+    private String symbol;
     private int rate;
     private int curr_rate;
 
@@ -42,6 +43,14 @@ public class StockModel implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getSymbol() {
+        return symbol;
+    }
+
+    public void setSymbol(String symbol) {
+        this.symbol = symbol;
     }
 
     public String getType() {

@@ -20,20 +20,21 @@ public class StockRepository {
     }
 
     public void insertTask(String name,
-                           String type,int rate,int curr_rate) {
+                           String type,String symbol,int rate,int curr_rate) {
 
         StockModel stock = new StockModel();
         stock.setName(name);
         stock.setType(type);
         stock.setRate(rate);
+        stock.setSymbol(symbol);
         stock.setCurr_rate(curr_rate);
         stock.setCreatedAt(AppUtils.getCurrentDateTime());
         stock.setModifiedAt(AppUtils.getCurrentDateTime());
 
-        insertTask(stock);
+        insertStock(stock);
     }
 
-    public void insertTask(final StockModel stock) {
+    public void insertStock(final StockModel stock) {
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... voids) {
@@ -43,7 +44,7 @@ public class StockRepository {
         }.execute();
     }
 
-    public void updateTask(final StockModel stock) {
+    public void updateStock(final StockModel stock) {
         stock.setModifiedAt(AppUtils.getCurrentDateTime());
 
         new AsyncTask<Void, Void, Void>() {
@@ -82,7 +83,7 @@ public class StockRepository {
         return stockDatabase.daoAccess().getStock(id);
     }
 
-    public LiveData<List<StockModel>> getTasks() {
+    public LiveData<List<StockModel>> getStocks() {
         return stockDatabase.daoAccess().fetchAllStocks();
     }
 }

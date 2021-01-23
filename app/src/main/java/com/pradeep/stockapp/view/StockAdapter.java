@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.pradeep.stockapp.R;
 import com.pradeep.stockapp.domain.Name;
+import com.pradeep.stockapp.room_db.StockModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,10 +22,10 @@ import java.util.List;
 public class StockAdapter extends RecyclerView.Adapter<StockAdapter.AnimalsViewHolder> implements Filterable {
 
     private Context context;
-    private List<Name> nameList;
-    private List<Name> filteredNameList;
+    private List<StockModel> nameList;
+    private List<StockModel> filteredNameList;
 
-    public StockAdapter(Context context, List<Name> nameList) {
+    public StockAdapter(Context context, List<StockModel> nameList) {
         super();
         this.context = context;
         this.nameList = nameList;
@@ -57,8 +58,8 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.AnimalsViewH
                 if (charSequenceString.isEmpty()) {
                     filteredNameList = nameList;
                 } else {
-                    List<Name> filteredList = new ArrayList<>();
-                    for (Name name : nameList) {
+                    List<StockModel> filteredList = new ArrayList<>();
+                    for (StockModel name : nameList) {
                         if (name.getName().toLowerCase().contains(charSequenceString.toLowerCase())) {
                             filteredList.add(name);
                         }
@@ -72,7 +73,7 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.AnimalsViewH
 
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
-                filteredNameList = (List<Name>) results.values;
+                filteredNameList = (List<StockModel>) results.values;
                 notifyDataSetChanged();
             }
         };
