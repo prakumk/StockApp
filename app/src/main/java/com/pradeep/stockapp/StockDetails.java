@@ -46,6 +46,7 @@ public class StockDetails extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stock_details);
         stock_symbol  = getIntent().getStringExtra(AppUtils.STOCK_SYMBOL_EXTRA);
+        setTitle("Details ("+stock_symbol+")");
         apiClient = ApiClient.getClient().create(RetrofitInterface.class);
         initView();
 
@@ -85,8 +86,8 @@ public class StockDetails extends AppCompatActivity {
 
 
     private void setChart(@NonNull LineChart chart, @NonNull TickerChart ticker){
-        chart.setTouchEnabled(false); // disable interactions
-        chart.getLegend().setEnabled(false); // hide legend
+        chart.setTouchEnabled(true); // disable interactions
+        chart.getLegend().setEnabled(true); // hide legend
         // show desc
         Description description = new Description();
         description.setText(String.format("Days/%s", ticker.getCurrency()));
