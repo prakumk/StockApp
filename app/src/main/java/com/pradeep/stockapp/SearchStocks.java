@@ -43,6 +43,7 @@ public class SearchStocks extends AppCompatActivity implements RoomItemClickList
     private RecyclerView recyclerView;
     private RetroStockAdapter stockAdapter;
     private LinearLayout no_stock;
+    private LinearLayout progress_bar;
 
     private List<RetroStockModel> all_stocks;
 
@@ -59,6 +60,7 @@ public class SearchStocks extends AppCompatActivity implements RoomItemClickList
         searchView_new = findViewById(R.id.search_view_next);
         no_stock = findViewById(R.id.no_stock);
         no_stock = findViewById(R.id.no_stock);
+        progress_bar = findViewById(R.id.progress_bar);
 
         recyclerView = findViewById(R.id.recycler_view);
 
@@ -86,6 +88,8 @@ public class SearchStocks extends AppCompatActivity implements RoomItemClickList
 
     private void callAPI(String query)
     {
+        no_stock.setVisibility(View.GONE);
+        progress_bar.setVisibility(View.VISIBLE);
         Call<APIResponse> call = apiClient.getStockDetail(query);
         call.enqueue(new Callback<APIResponse>() {
             @Override
@@ -98,11 +102,13 @@ public class SearchStocks extends AppCompatActivity implements RoomItemClickList
                     if (stockModels.size()>0)
                     {
                         no_stock.setVisibility(View.GONE);
+                        progress_bar.setVisibility(View.GONE);
 
                     }
                     else
                     {
                         no_stock.setVisibility(View.VISIBLE);
+                        progress_bar.setVisibility(View.GONE);
                     }
                 }
             }
