@@ -24,7 +24,7 @@
       android:background="@drawable/selector_line_bg"
       android:button="@null"
       android:gravity="center"
-      android:text="15 minutes" />
+      android:text="1 Day" />
     <View
       android:layout_width="0.5dp"
       android:layout_height="match_parent"
@@ -37,7 +37,7 @@
       android:background="@drawable/selector_line_bg"
       android:button="@null"
       android:gravity="center"
-      android:text="1 hour" />
+      android:text="5 Days" />
     <View
       android:layout_width="0.5dp"
       android:layout_height="match_parent"
@@ -50,7 +50,7 @@
       android:background="@drawable/selector_line_bg"
       android:button="@null"
       android:gravity="center"
-      android:text="4 hours" />
+      android:text="6 Months" />
 
     <View
       android:layout_width="0.5dp"
@@ -64,7 +64,21 @@
       android:background="@drawable/selector_line_bg"
       android:button="@null"
       android:gravity="center"
-      android:text="1 day" />
+      android:text="1 year" />
+
+    <View
+        android:layout_width="0.5dp"
+        android:layout_height="match_parent"
+        android:background="#cccccc" />
+    <RadioButton
+        android:id="@+id/rbtn_5y"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@drawable/selector_line_bg"
+        android:button="@null"
+        android:gravity="center"
+        android:text="5 year" />
   </RadioGroup>
 
   <View

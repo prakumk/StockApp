@@ -96,7 +96,7 @@ public class StockDetailsCharts extends AppCompatActivity
   }
 
   public void initData(String json) {
-    // 士兰微k线数据
+
     String kJson = LocalUtils.getFromAssets(this, json);
 
     KLineParser parser = new KLineParser(kJson);
