@@ -127,4 +127,24 @@ public class StockDetails extends AppCompatActivity {
         chart.setData(data);
         chart.invalidate();
     }
+
+    public void one_day(View view) {
+
+    }
+
+    public void five_days(View view) {
+    }
+
+    public void six_month(View view) {
+    }
+
+    public void one_yr(View view) {
+    }
+
+    public void five_yr(View view) {
+    }
+
+    public void watchlist(View view) {
+
+    }
 }

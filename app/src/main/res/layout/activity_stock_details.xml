@@ -18,30 +18,35 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <Button
+                android:onClick="one_day"
                 android:layout_weight="1"
                 android:textSize="10sp"
                 android:text="1\nDay"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <Button
+                android:onClick="five_days"
                 android:layout_weight="1"
                 android:textSize="10sp"
                 android:text="5\nDays"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <Button
+                android:onClick="six_month"
                 android:layout_weight="1"
                 android:textSize="10sp"
                 android:text="6\nmonth"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <Button
+                android:onClick="one_yr"
                 android:layout_weight="1"
                 android:textSize="10sp"
                 android:text="1\nyear"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <Button
+                android:onClick="five_yr"
                 android:layout_weight="1"
                 android:textSize="10sp"
                 android:text="5\nYears"
@@ -53,6 +58,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <Button
+                android:onClick="watchlist"
                 android:text="Add to Watchlist"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />

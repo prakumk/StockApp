@@ -14,5 +14,5 @@ public interface RetrofitInterface {
 
 
     @GET("stock/v2/get-chart?interval=1d&region=IN&lang=en&range=1mo")
-    Single<TickerChart> fetchTickerChart(@Query("symbol") String tickerId);
+    Single<TickerChart> fetchTickerChart(@Query("symbol") String tickerId,@Query("interval") String interval,@Query("range") String range);
 }
