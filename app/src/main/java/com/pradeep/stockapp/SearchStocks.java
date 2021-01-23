@@ -68,7 +68,6 @@ public class SearchStocks extends AppCompatActivity implements RoomItemClickList
                 if(query.length()>3)
                 {
                     callAPI(query);
-//                    stockAdapter.getFilter().filter(query);
                 }
                 return false;
             }
@@ -78,12 +77,11 @@ public class SearchStocks extends AppCompatActivity implements RoomItemClickList
                 if(newText.length()>3)
                 {
                     callAPI(newText);
-//                    stockAdapter.getFilter().fil ter(query);
                 }
                 return false;
             }
         });
-        initRecyclerView(all_stocks);
+        initRecyclerView();
     }
 
     private void callAPI(String query)
@@ -117,8 +115,8 @@ public class SearchStocks extends AppCompatActivity implements RoomItemClickList
     }
 
 
-    private void initRecyclerView(List<RetroStockModel> nameList) {
-        this.all_stocks = nameList;
+    private void initRecyclerView() {
+//        this.all_stocks = nameList;
         stockAdapter = new RetroStockAdapter(this, all_stocks,this);
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
@@ -126,9 +124,9 @@ public class SearchStocks extends AppCompatActivity implements RoomItemClickList
         recyclerView.setAdapter(stockAdapter);
     }
 
-    private void refresh(List<RetroStockModel> stockModels ){
+    private void refresh(List<RetroStockModel> stockModels){
         all_stocks = stockModels;
-        stockAdapter.notifyDataSetChanged();
+        initRecyclerView();
     }
 
     @Override

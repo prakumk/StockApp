@@ -19,18 +19,16 @@ import com.pradeep.stockapp.retrofit_api.RetroStockModel;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RetroStockAdapter extends RecyclerView.Adapter<RetroStockAdapter.stockViewHolder> implements Filterable {
+public class RetroStockAdapter extends RecyclerView.Adapter<RetroStockAdapter.stockViewHolder> {
 
     private Context context;
     private List<RetroStockModel> nameList;
-    private List<RetroStockModel> filteredNameList;
     private RoomItemClickListner roomItemClickListner;
 
     public RetroStockAdapter(Context context, List<RetroStockModel> nameList, RoomItemClickListner roomItemClickListner) {
         super();
         this.context = context;
         this.nameList = nameList;
-        this.filteredNameList = nameList;
         this.roomItemClickListner = roomItemClickListner;
     }
 
@@ -49,44 +47,14 @@ public class RetroStockAdapter extends RecyclerView.Adapter<RetroStockAdapter.st
 
     @Override
     public void onBindViewHolder(@NonNull stockViewHolder holder, int position) {
-        holder.tvName.setText(filteredNameList.get(position).getLongname());
-        holder.type.setText(filteredNameList.get(position).getExchange());
-        holder.view.setTag(filteredNameList.get(position).getSymbol());
+        holder.tvName.setText(nameList.get(position).getLongname());
+        holder.type.setText(nameList.get(position).getExchange());
+        holder.view.setTag(nameList.get(position).getSymbol());
     }
 
     @Override
     public int getItemCount() {
-        return filteredNameList.size();
-    }
-
-    @Override
-    public Filter getFilter() {
-        return new Filter() {
-            @Override
-            protected FilterResults performFiltering(CharSequence constraint) {
-                String charSequenceString = constraint.toString();
-                if (charSequenceString.isEmpty()) {
-                    filteredNameList = nameList;
-                } else {
-                    List<RetroStockModel> filteredList = new ArrayList<>();
-                    for (RetroStockModel name : nameList) {
-                        if (name.getLongname().toLowerCase().contains(charSequenceString.toLowerCase())) {
-                            filteredList.add(name);
-                        }
-                        filteredNameList = filteredList;
-                    }
-                }
-                FilterResults results = new FilterResults();
-                results.values = filteredNameList;
-                return results;
-            }
-
-            @Override
-            protected void publishResults(CharSequence constraint, FilterResults results) {
-                filteredNameList = (List<RetroStockModel>) results.values;
-                notifyDataSetChanged();
-            }
-        };
+        return nameList.size();
     }
 
     public class stockViewHolder extends RecyclerView.ViewHolder {
