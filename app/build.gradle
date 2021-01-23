@@ -5,7 +5,7 @@ android {
     buildToolsVersion "29.0.3"
     defaultConfig {
         applicationId "com.pradeep.stockapp"
-        minSdkVersion 15
+        minSdkVersion 19
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -71,4 +71,5 @@ dependencies {
     //chart
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 
+    implementation project(':chartmodule')
 }
