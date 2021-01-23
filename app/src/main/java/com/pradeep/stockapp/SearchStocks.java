@@ -8,17 +8,22 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import androidx.appcompat.widget.SearchView;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
 import com.pradeep.stockapp.common.AppUtils;
+import com.pradeep.stockapp.custom_components.RoomItemClickListner;
 import com.pradeep.stockapp.retrofit_api.ApiClient;
 import com.pradeep.stockapp.retrofit_api.APIResponse;
 import com.pradeep.stockapp.retrofit_api.RetroStockModel;
 import com.pradeep.stockapp.retrofit_api.RetrofitInterface;
+import com.pradeep.stockapp.room_db.StockModel;
+import com.pradeep.stockapp.view.RetroStockAdapter;
 import com.pradeep.stockapp.view.StockAdapter;
 
 import java.io.Console;
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -27,7 +32,7 @@ import retrofit2.Response;
 import timber.log.Timber;
 
 
-public class SearchStocks extends AppCompatActivity {
+public class SearchStocks extends AppCompatActivity implements RoomItemClickListner {
     private static final String TAG = "SearchStocks";
 
 
@@ -36,14 +41,16 @@ public class SearchStocks extends AppCompatActivity {
 
 
     private RecyclerView recyclerView;
-    private StockAdapter stockAdapter;
+    private RetroStockAdapter stockAdapter;
     private LinearLayout no_stock;
-    private LinearLayout stocks;
+
+    private List<RetroStockModel> all_stocks;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_stocks);
+        all_stocks=new ArrayList<>();
         apiClient = ApiClient.getClient().create(RetrofitInterface.class);
         initView();
     }
@@ -76,6 +83,7 @@ public class SearchStocks extends AppCompatActivity {
                 return false;
             }
         });
+        initRecyclerView(all_stocks);
     }
 
     private void callAPI(String query)
@@ -88,6 +96,7 @@ public class SearchStocks extends AppCompatActivity {
                 if (apiResponseResponse.body()!=null) {
                     List<RetroStockModel> stockModels = apiResponseResponse.body().stockModels;
                     Timber.i("Found " + stockModels.size());
+                    refresh(stockModels);
                     if (stockModels.size()>0)
                     {
                         no_stock.setVisibility(View.GONE);
@@ -105,5 +114,25 @@ public class SearchStocks extends AppCompatActivity {
                 AppUtils.showToast(SearchStocks.this,"Error calling API");
             }
         });
+    }
+
+
+    private void initRecyclerView(List<RetroStockModel> nameList) {
+        this.all_stocks = nameList;
+        stockAdapter = new RetroStockAdapter(this, all_stocks,this);
+
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(stockAdapter);
+    }
+
+    private void refresh(List<RetroStockModel> stockModels ){
+        all_stocks = stockModels;
+        stockAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onItemClick(String symbol) {
+
     }
 }
