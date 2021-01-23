@@ -2,6 +2,7 @@ package com.pradeep.stockapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -139,6 +140,8 @@ public class SearchStocks extends AppCompatActivity implements RoomItemClickList
 
     @Override
     public void onItemClick(String symbol) {
-        Toast.makeText(this,"Clicked "+symbol,Toast.LENGTH_SHORT).show();
+        Intent i = new Intent(this,SearchStocks.class);
+        i.putExtra(AppUtils.STOCK_SYMBOL_EXTRA,symbol);
+        startActivity(i);
     }
 }

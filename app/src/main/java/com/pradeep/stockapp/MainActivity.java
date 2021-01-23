@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.pradeep.stockapp.common.AppUtils;
 import com.pradeep.stockapp.custom_components.RoomItemClickListner;
 import com.pradeep.stockapp.custom_components.SimpleListDividerDecorator;
 import com.pradeep.stockapp.room_db.StockModel;
@@ -136,6 +137,8 @@ public class MainActivity extends AppCompatActivity implements RoomItemClickList
 
     @Override
     public void onItemClick(String symbol) {
-        Toast.makeText(this,"Clicked "+symbol,Toast.LENGTH_SHORT).show();
+        Intent i = new Intent(this,SearchStocks.class);
+        i.putExtra(AppUtils.STOCK_SYMBOL_EXTRA,symbol);
+        startActivity(i);
     }
 }
