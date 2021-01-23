@@ -7,5 +7,5 @@ import retrofit2.http.Query;
 public interface RetrofitInterface {
 
     @GET("auto-complete?region=IN")
-    Call<Response> getStockDetail(@Query("q") String search_text);
+    Call<APIResponse> getStockDetail(@Query("q") String search_text);
 }

@@ -1,6 +1,8 @@
 package com.pradeep.stockapp.common;
 
+import android.content.Context;
 import android.util.Base64;
+import android.widget.Toast;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -31,5 +33,9 @@ public class AppUtils {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public static void showToast(Context context,String message){
+        Toast.makeText(context,message,Toast.LENGTH_SHORT).show();
     }
 }
