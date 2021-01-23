@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 
 import com.pradeep.stockapp.R;
+import com.pradeep.stockapp.custom_components.RoomItemClickListner;
 import com.pradeep.stockapp.room_db.StockModel;
 
 import java.util.ArrayList;
@@ -24,18 +25,26 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.stockViewHol
     private Context context;
     private List<StockModel> nameList;
     private List<StockModel> filteredNameList;
+    private RoomItemClickListner roomItemClickListner;
 
-    public StockAdapter(Context context, List<StockModel> nameList) {
+    public StockAdapter(Context context, List<StockModel> nameList,RoomItemClickListner roomItemClickListner) {
         super();
         this.context = context;
         this.nameList = nameList;
         this.filteredNameList = nameList;
+        this.roomItemClickListner = roomItemClickListner;
     }
 
     @NonNull
     @Override
     public stockViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.list_item, parent, false);
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                roomItemClickListner.onItemClick((String)view.getTag());
+            }
+        });
         return new stockViewHolder(view);
     }
 
@@ -71,6 +80,7 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.stockViewHol
             String text = ""+String.format("%.2f", diff)+" ("+String.format("%.2f", per)+"%)";
             holder.diff.setText(text);
         }
+        holder.view.setTag(filteredNameList.get(position).getSymbol());
     }
 
     @Override
@@ -114,11 +124,13 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.stockViewHol
         private AppCompatTextView price;
         private AppCompatTextView type;
         private AppCompatTextView diff;
+        private View view;
 
 
 
         public stockViewHolder(@NonNull View itemView) {
             super(itemView);
+            view = itemView;
             tvName = itemView.findViewById(R.id.name);
             price = itemView.findViewById(R.id.price);
             type = itemView.findViewById(R.id.type);

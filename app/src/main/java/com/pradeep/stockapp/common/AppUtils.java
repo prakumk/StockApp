@@ -8,6 +8,11 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class AppUtils {
+
+    public static final String BASE_URL = "https://apidojo-yahoo-finance-v1.p.rapidapi.com/";
+    public static final String HEADER_HOST = "apidojo-yahoo-finance-v1.p.rapidapi.com";
+    public static final String HEADER_API_KEY = "a95692af65mshcf9eaebb246daf9p1b3720jsn9b11cfa3fbe0";
+
     public static Date getCurrentDateTime(){
         Date currentDate =  Calendar.getInstance().getTime();
         return currentDate;

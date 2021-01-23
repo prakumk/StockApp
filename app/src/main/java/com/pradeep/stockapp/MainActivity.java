@@ -13,8 +13,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.pradeep.stockapp.custom_components.RoomItemClickListner;
 import com.pradeep.stockapp.custom_components.SimpleListDividerDecorator;
 import com.pradeep.stockapp.room_db.StockModel;
 import com.pradeep.stockapp.room_db.StockRepository;
@@ -23,7 +25,7 @@ import com.pradeep.stockapp.view.StockAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements RoomItemClickListner {
 
     private SearchView searchView;
     private RecyclerView recyclerView;
@@ -109,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void initRecyclerView(List<StockModel> nameList) {
         this.all_stocks = nameList;
-        stockAdapter = new StockAdapter(this, all_stocks);
+        stockAdapter = new StockAdapter(this, all_stocks,this);
         if (nameList.size()>0){
             fav_stocks.setVisibility(View.VISIBLE);
             no_fav_stock.setVisibility(View.INVISIBLE);
@@ -127,5 +129,10 @@ public class MainActivity extends AppCompatActivity {
 
     private void visitAddNewStockScreen(){
 
+    }
+
+    @Override
+    public void onItemClick(String symbol) {
+        Toast.makeText(this,"Clicked "+symbol,Toast.LENGTH_SHORT).show();
     }
 }
