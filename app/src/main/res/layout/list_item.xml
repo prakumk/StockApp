@@ -1,23 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:orientation="vertical"
     android:layout_height="wrap_content">
-
+<LinearLayout
+    android:gravity="center_vertical"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:padding="10dp">
     <TextView
-        android:id="@+id/tv_name"
+        android:id="@+id/name"
+        android:layout_weight="1"
+        android:textSize="20sp"
+        android:textColor="@color/black"
+        android:text="NIFTY"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/price"
+        android:textColor="@color/green"
+        android:text="64.00"
+        android:layout_marginRight="30dp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:padding="8dp"
-        android:textColor="@android:color/black"
-        android:textSize="30sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="Giraffe" />
+        android:layout_height="wrap_content" />
+
+</LinearLayout>
+
+    <LinearLayout
+        android:padding="10dp"
+        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="40dp">
+        <TextView
+            android:id="@+id/type"
+            android:layout_weight="1"
+            android:textSize="15sp"
+            android:textColor="@color/black_overlay"
+            android:text="NIFTY"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/diff"
+            android:textColor="@color/black"
+            android:text="+9.00 (+16.36%)"
+            android:layout_marginRight="30dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
 
 
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
