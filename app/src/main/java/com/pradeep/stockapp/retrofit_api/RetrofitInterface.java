@@ -1,6 +1,6 @@
 package com.pradeep.stockapp.retrofit_api;
 
-import com.pradeep.stockapp.graph.TickerChart;
+import com.pradeep.stockapp.RetroAPIModels.TickerChart;
 
 import io.reactivex.Single;
 import retrofit2.Call;
@@ -13,6 +13,10 @@ public interface RetrofitInterface {
     Call<APIResponse> getStockDetail(@Query("q") String search_text);
 
 
-    @GET("stock/v2/get-chart?interval=1d&region=IN&lang=en&range=1mo")
+    @GET("stock/v2/get-chart?region=IN&lang=en")
     Single<TickerChart> fetchTickerChart(@Query("symbol") String tickerId,@Query("interval") String interval,@Query("range") String range);
+
+    @GET("stock/v2/get-statistics?region=IN&lang=en")
+    Single<TickerChart> fetchTickerChart(@Query("symbol") String stock_name);
+
 }

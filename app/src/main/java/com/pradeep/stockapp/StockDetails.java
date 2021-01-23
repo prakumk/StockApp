@@ -17,10 +17,10 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.pradeep.stockapp.common.AppUtils;
 import com.pradeep.stockapp.graph.FactoryMPAndroidChart;
-import com.pradeep.stockapp.graph.TickerChart;
-import com.pradeep.stockapp.retrofit_api.APIResponse;
+import com.pradeep.stockapp.RetroAPIModels.TickerChart;
 import com.pradeep.stockapp.retrofit_api.ApiClient;
 import com.pradeep.stockapp.retrofit_api.RetrofitInterface;
+import com.pradeep.stockapp.room_db.StockRepository;
 
 import java.util.Calendar;
 import java.util.List;
@@ -30,8 +30,6 @@ import io.reactivex.SingleObserver;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
-import retrofit2.Call;
-import retrofit2.Response;
 import timber.log.Timber;
 
 public class StockDetails extends AppCompatActivity {
@@ -40,6 +38,8 @@ public class StockDetails extends AppCompatActivity {
 
     RetrofitInterface apiClient;
     LinearLayout graph_progress;
+    LinearLayout graph_progress_internal;
+    StockRepository stockRepository ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +48,7 @@ public class StockDetails extends AppCompatActivity {
         stock_symbol  = getIntent().getStringExtra(AppUtils.STOCK_SYMBOL_EXTRA);
         setTitle("Details ("+stock_symbol+")");
         apiClient = ApiClient.getClient().create(RetrofitInterface.class);
+        stockRepository = new StockRepository(this);
         initView();
 
     }
@@ -55,8 +56,14 @@ public class StockDetails extends AppCompatActivity {
     private void initView() {
         chart = findViewById(R.id.chart);
         graph_progress = findViewById(R.id.graph_progress);
+        graph_progress_internal = findViewById(R.id.graph_progress_internal);
+        getChartData("1d","1mo");
+    }
 
-        Single<TickerChart> chartSingle = apiClient.fetchTickerChart(stock_symbol);
+
+    public void getChartData(String interval,String range){
+        graph_progress_internal.setVisibility(View.VISIBLE);
+        Single<TickerChart> chartSingle = apiClient.fetchTickerChart(stock_symbol,interval,range);
         chartSingle.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new SingleObserver<TickerChart>() {
@@ -67,6 +74,7 @@ public class StockDetails extends AppCompatActivity {
                     @Override
                     public void onSuccess(TickerChart tickerChart) {
                         graph_progress.setVisibility(View.GONE);
+                        graph_progress_internal.setVisibility(View.GONE);
                         if(tickerChart.getError() == null) {
                             setChart(chart, tickerChart);
                         }
@@ -80,7 +88,7 @@ public class StockDetails extends AppCompatActivity {
                     public void onError(Throwable e) {
                         AppUtils.showToast(StockDetails.this,"Some Error occurred while loading data");
                     }
-                });
+        });
     }
 
 
@@ -129,22 +137,26 @@ public class StockDetails extends AppCompatActivity {
     }
 
     public void one_day(View view) {
-
+        getChartData("5m","1d");
     }
 
     public void five_days(View view) {
+        getChartData("60m","5d");
     }
 
     public void six_month(View view) {
+        getChartData("1d","6mo");
     }
 
     public void one_yr(View view) {
+        getChartData("1d","1y");
     }
 
     public void five_yr(View view) {
+        getChartData("1d","5y");
     }
 
     public void watchlist(View view) {
-
+        stockRepository.insertTask();
     }
 }

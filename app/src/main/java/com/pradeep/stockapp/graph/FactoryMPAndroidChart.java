@@ -3,6 +3,7 @@ package com.pradeep.stockapp.graph;
 import androidx.annotation.NonNull;
 
 import com.github.mikephil.charting.data.Entry;
+import com.pradeep.stockapp.RetroAPIModels.TickerChart;
 
 import java.util.ArrayList;
 import java.util.List;

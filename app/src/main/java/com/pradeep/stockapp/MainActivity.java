@@ -62,13 +62,15 @@ public class MainActivity extends AppCompatActivity implements RoomItemClickList
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                stockAdapter.getFilter().filter(query);
+                if (stockAdapter != null)
+                    stockAdapter.getFilter().filter(query);
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                stockAdapter.getFilter().filter(newText);
+                if (stockAdapter != null)
+                    stockAdapter.getFilter().filter(newText);
                 return false;
             }
         });

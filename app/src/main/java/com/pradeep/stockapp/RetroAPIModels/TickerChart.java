@@ -1,9 +1,10 @@
-package com.pradeep.stockapp.graph;
+package com.pradeep.stockapp.RetroAPIModels;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.google.gson.Gson;
+import com.pradeep.stockapp.graph.BaseResponse;
 
 import java.util.Collections;
 import java.util.List;
