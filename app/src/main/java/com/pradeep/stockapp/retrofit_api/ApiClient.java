@@ -3,6 +3,7 @@ package com.pradeep.stockapp.retrofit_api;
 import android.content.Context;
 
 //import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import com.pradeep.stockapp.App;
 import com.pradeep.stockapp.common.AppUtils;
 
@@ -32,6 +33,7 @@ public class ApiClient {
             retrofit = new Retrofit.Builder()
                     .baseUrl(AppUtils.BASE_URL)
                     .client(okHttpClient)
+                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
         }

@@ -140,7 +140,7 @@ public class SearchStocks extends AppCompatActivity implements RoomItemClickList
 
     @Override
     public void onItemClick(String symbol) {
-        Intent i = new Intent(this,SearchStocks.class);
+        Intent i = new Intent(this,StockDetails.class);
         i.putExtra(AppUtils.STOCK_SYMBOL_EXTRA,symbol);
         startActivity(i);
     }
