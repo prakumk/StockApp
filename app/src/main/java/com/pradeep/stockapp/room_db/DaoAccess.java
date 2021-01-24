@@ -35,6 +35,8 @@ public interface DaoAccess {
     @Update
     void updateStock(StockModel note);
 
+    @Query("DELETE FROM StockModel WHERE symbol = :symbol")
+    void deleteBySymbol(String symbol);
 
     @Delete
     void deleteStock(StockModel note);

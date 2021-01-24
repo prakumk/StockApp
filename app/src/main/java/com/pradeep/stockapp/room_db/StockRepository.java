@@ -69,6 +69,17 @@ public class StockRepository {
         }
     }
 
+
+    public void deleteStock(final String symbol) {
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... voids) {
+                stockDatabase.daoAccess().deleteBySymbol(symbol);
+                return null;
+            }
+        }.execute();
+    }
+
     public void deleteTask(final StockModel stock) {
         new AsyncTask<Void, Void, Void>() {
             @Override

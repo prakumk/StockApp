@@ -201,8 +201,26 @@ public class MainActivity extends AppCompatActivity implements RoomItemClickList
     }
 
     @Override
-    public void onItemLongClick(String symbol) {
-        AppUtils.showToast(this,"Long clicked");
+    public void onItemLongClick(final String symbol) {
+//        AppUtils.showToast(this,"Long clicked");
+
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setTitle("Delete Stock");
+        alert.setMessage("Are you sure you want to delete?");
+        alert.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                stockRepository.deleteStock(symbol);
+            }
+        });
+        alert.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                // close dialog
+                dialog.cancel();
+            }
+        });
+        alert.show();
     }
 
     private void showSortDialog(){
