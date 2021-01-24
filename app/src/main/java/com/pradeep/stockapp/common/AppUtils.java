@@ -14,7 +14,7 @@ public class AppUtils {
 
     public static final String BASE_URL = "https://apidojo-yahoo-finance-v1.p.rapidapi.com/";
     public static final String HEADER_HOST = "apidojo-yahoo-finance-v1.p.rapidapi.com";
-    public static final String HEADER_API_KEY = "a95692af65mshcf9eaebb246daf9p1b3720jsn9b11cfa3fbe0";
+    public static final String HEADER_API_KEY = "7a42baa41fmsh21c7a25c05e792bp16b0dejsnf8dba939df8a";
 
 
     public static final String STOCK_SYMBOL_EXTRA = "stock_symbol_extra";
