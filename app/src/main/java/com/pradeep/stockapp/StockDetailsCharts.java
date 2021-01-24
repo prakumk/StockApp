@@ -267,8 +267,8 @@ public class StockDetailsCharts extends AppCompatActivity
 //        initialData("slw_k.json");
         break;
       case R.id.rbtn_1h:
-          getChartData("5m","1d");
-//        getChartData("60m","5d");
+//          getChartData("5m","1d");
+        getChartData("60m","5d");
 //        initialData("geli.json");
         break;
       case R.id.rbtn_4h:
