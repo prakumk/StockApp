@@ -81,11 +81,32 @@ public class TickerDetailChart extends BaseResponse {
                 for (int i=0;i<chart.result.get(0).timestamp.size();i++){
                     KLineItem kLineItem = new KLineItem();
                     kLineItem.day = getDate(chart.result.get(0).timestamp.get(i));
-                    kLineItem.close = chart.result.get(0).indicators.quote.get(0).close.get(i);
-                    kLineItem.open = chart.result.get(0).indicators.quote.get(0).open.get(i);
-                    kLineItem.high = chart.result.get(0).indicators.quote.get(0).high.get(i);
-                    kLineItem.low = chart.result.get(0).indicators.quote.get(0).low.get(i);
-                    kLineItem.volume = chart.result.get(0).indicators.quote.get(0).volume.get(i);
+                    try{
+                        kLineItem.close = chart.result.get(0).indicators.quote.get(0).close.get(i);
+                    }
+                    catch (Exception e){
+                        kLineItem.close = 0;
+                    }
+                    try {
+                        kLineItem.open = chart.result.get(0).indicators.quote.get(0).open.get(i);
+                    } catch (Exception e) {
+                        kLineItem.open = 0;
+                    }
+                    try {
+                        kLineItem.high = chart.result.get(0).indicators.quote.get(0).high.get(i);
+                    } catch (Exception e) {
+                        kLineItem.high = 0;
+                    }
+                    try {
+                        kLineItem.low = chart.result.get(0).indicators.quote.get(0).low.get(i);
+                    } catch (Exception e) {
+                        kLineItem.low = 0;
+                    }
+                    try {
+                        kLineItem.volume = chart.result.get(0).indicators.quote.get(0).volume.get(i);
+                    } catch (Exception e) {
+                        kLineItem.volume = 0;
+                    }
                     data.add(kLineItem);
                 }
             }
