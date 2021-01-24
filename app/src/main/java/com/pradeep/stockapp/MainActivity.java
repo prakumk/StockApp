@@ -1,6 +1,7 @@
 package com.pradeep.stockapp;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
@@ -52,6 +53,8 @@ public class MainActivity extends AppCompatActivity implements RoomItemClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ActionBar actionbar = getSupportActionBar();
+        actionbar.hide();
         setTitle("StockApp (WatchList)");
         stockRepository = new StockRepository(this);
         checked_sorted = 0;
