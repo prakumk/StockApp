@@ -10,6 +10,8 @@ public class TickerDetails extends BaseResponse {
 
     SummaryDetails summaryDetail;
 
+    FinancialData financialData;
+
     public TickerDetails(){}
 
     class Price{
@@ -24,6 +26,14 @@ public class TickerDetails extends BaseResponse {
         Volume volume;
         DayLow dayLow;
         DayHigh dayHigh;
+    }
+
+    class FinancialData{
+        CurrentPrice currentPrice;
+    }
+
+    class CurrentPrice{
+          double raw;
     }
 
     class PreviousClose{
@@ -70,7 +80,7 @@ public class TickerDetails extends BaseResponse {
 
 
     public double getCurrentPrice(){
-        return summaryDetail.open.raw;
+        return financialData.currentPrice.raw;
     }
 
 
