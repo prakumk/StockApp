@@ -180,7 +180,7 @@ public class StockDetails extends AppCompatActivity {
                     public void onError(Throwable e) {
                         AppUtils.showToast(StockDetails.this,"Some Error occurred while loading data");
                     }
-                });
+        });
 
     }
 

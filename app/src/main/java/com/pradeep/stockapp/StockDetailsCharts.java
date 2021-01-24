@@ -1,14 +1,20 @@
 package com.pradeep.stockapp;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.guannan.chartmodule.chart.KMasterChartView;
 import com.guannan.chartmodule.chart.KSubChartView;
 import com.guannan.chartmodule.chart.MarketFigureChart;
@@ -23,9 +29,12 @@ import com.guannan.simulateddata.LocalUtils;
 import com.guannan.simulateddata.entity.KLineItem;
 import com.guannan.simulateddata.parser.KLineParser;
 import com.pradeep.stockapp.RetroAPIModels.TickerDetailChart;
+import com.pradeep.stockapp.RetroAPIModels.TickerDetails;
 import com.pradeep.stockapp.common.AppUtils;
 import com.pradeep.stockapp.retrofit_api.ApiClient;
 import com.pradeep.stockapp.retrofit_api.RetrofitInterface;
+import com.pradeep.stockapp.room_db.StockModel;
+import com.pradeep.stockapp.room_db.StockRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +54,7 @@ public class StockDetailsCharts extends AppCompatActivity
   private KSubChartView mVolumeView;
   private MarketFigureChart mMarketFigureChart;
   private ProgressBar mProgressBar;
+  private FloatingActionButton fav_stock;
 
   private int MAX_COLUMNS = 160;
   private int MIN_COLUMNS = 20;
@@ -52,6 +62,15 @@ public class StockDetailsCharts extends AppCompatActivity
 
   String stock_symbol;
   RetrofitInterface apiClient;
+  TickerDetails tickerDetails;
+
+  private TextView tv_price;
+  private TextView high_low;
+  private TextView high;
+  private TextView low;
+  private TextView volume;
+  StockRepository stockRepository ;
+
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +79,7 @@ public class StockDetailsCharts extends AppCompatActivity
     stock_symbol  = getIntent().getStringExtra(AppUtils.STOCK_SYMBOL_EXTRA);
     setTitle("Details ("+stock_symbol+")");
     apiClient = ApiClient.getClient().create(RetrofitInterface.class);
+    stockRepository = new StockRepository(this);
     initViews();
 
     mMarketFigureChart = findViewById(R.id.chart_container);
@@ -92,7 +112,112 @@ public class StockDetailsCharts extends AppCompatActivity
     RadioGroup radioGroup = findViewById(R.id.rbtn_group);
     radioGroup.setOnCheckedChangeListener(this);
     radioGroup.check(R.id.rbtn_15);
+
+    tv_price = findViewById(R.id.tv_price);
+    high_low = findViewById(R.id.high_low);
+    high = findViewById(R.id.high);
+    low = findViewById(R.id.low);
+    volume = findViewById(R.id.volume);
+    fav_stock = findViewById(R.id.fav_stock);
+    getStockDetails();
+
     getChartData("5m","1d");
+  }
+
+  public void getStockDetails(){
+      AppUtils.showToast(StockDetailsCharts.this,"Adding to watchlist");
+      Single<TickerDetails> chartSingle = apiClient.fetchTickerDetails(stock_symbol);
+      chartSingle.subscribeOn(Schedulers.io())
+              .observeOn(AndroidSchedulers.mainThread())
+              .subscribe(new SingleObserver<TickerDetails>() {
+                @Override
+                public void onSubscribe(Disposable d) {
+                }
+
+                @Override
+                public void onSuccess(TickerDetails tickerDetails) {
+                    initUpperView(tickerDetails);
+                }
+
+                @Override
+                public void onError(Throwable e) {
+                  AppUtils.showToast(StockDetailsCharts.this,"Some Error occurred while loading data");
+                }
+              });
+  }
+
+  private void initUpperView(TickerDetails tickerDetails) {
+        this.tickerDetails = tickerDetails;
+        tv_price.setText(tickerDetails.getCurrencySymbol()+String.format("%.2f", tickerDetails.getCurrentPrice()));
+
+
+        if (tickerDetails.getCurrentPrice()>tickerDetails.getPreviousClose()){
+          tv_price.setTextColor(Color.parseColor("#73BD73"));
+        }
+        else if(tickerDetails.getCurrentPrice()==tickerDetails.getPreviousClose()){
+          tv_price.setTextColor(Color.parseColor("#F7D438"));
+        }
+        else
+        {
+          tv_price.setTextColor(Color.parseColor("#E35E59"));
+        }
+
+
+        double diff = tickerDetails.getCurrentPrice()-tickerDetails.getPreviousClose();
+        double per = 0;
+        try {
+          per = diff * 100 / tickerDetails.getPreviousClose();
+        }
+        catch (Exception e){
+
+        }
+        if(diff>=0){
+          String text = "+"+String.format("%.2f", diff)+" ("+String.format("%.2f", per)+"%)";
+          high_low.setText(text);
+        }
+        else
+        {
+          String text = ""+String.format("%.2f", diff)+" ("+String.format("%.2f", per)+"%)";
+          high_low.setText(text);
+        }
+        high.setText("High : "+String.format("%.2f", tickerDetails.getDayHigh()));
+        low.setText("Low : "+String.format("%.2f", tickerDetails.getDayLow()));
+        volume.setText("Vol : "+tickerDetails.getVolume());
+        fav_stock.setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(View view) {
+            addToWatchList();
+          }
+        });
+  }
+
+
+  public void addToWatchList()
+  {
+    if(tickerDetails!=null && tickerDetails.getError() == null) {
+//                            (String name, String type, String symbol, double rate, double curr_rate)
+      LiveData<StockModel> d = stockRepository.getStock(stock_symbol);
+      if(!d.hasActiveObservers())
+        d.observe(this, new Observer<StockModel>() {
+          @Override
+          public void onChanged(@Nullable StockModel stockModel){
+            if(stockModel == null) {
+              stockRepository.insertStock(tickerDetails.getLongName(),tickerDetails.getExchange(),tickerDetails.getSymbol(),tickerDetails.getPreviousClose(),tickerDetails.getCurrentPrice());
+            } else {
+              stockModel.setRate(tickerDetails.getPreviousClose());
+              stockModel.setCurr_rate(tickerDetails.getCurrentPrice());
+              stockRepository.updateStock(stockModel);
+            }
+            AppUtils.updateStocks(StockDetailsCharts.this);
+            AppUtils.showToast(StockDetailsCharts.this,"Successfully Added to watchlist");
+            d.removeObserver(this);
+          }
+        });
+    }
+    else
+    {
+      AppUtils.showToast(StockDetailsCharts.this,"Unable to mark to watchlist");
+    }
   }
 
   public void getChartData(String interval,String range){

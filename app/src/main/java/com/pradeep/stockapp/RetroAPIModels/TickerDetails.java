@@ -21,6 +21,9 @@ public class TickerDetails extends BaseResponse {
     class SummaryDetails{
         PreviousClose previousClose;
         Open open;
+        Volume volume;
+        DayLow dayLow;
+        DayHigh dayHigh;
     }
 
     class PreviousClose{
@@ -30,6 +33,18 @@ public class TickerDetails extends BaseResponse {
 
     class Open{
         double raw;
+    }
+
+    class DayLow {
+        double raw;
+    }
+
+    class DayHigh{
+        double raw;
+    }
+
+    class Volume{
+        String longFmt;
     }
 
     public String getSymbol() {
@@ -57,5 +72,20 @@ public class TickerDetails extends BaseResponse {
     public double getCurrentPrice(){
         return summaryDetail.open.raw;
     }
+
+
+    public double getDayHigh(){
+        return summaryDetail.dayHigh.raw;
+    }
+
+    public double getDayLow(){
+        return summaryDetail.dayLow.raw;
+    }
+
+
+    public String getVolume(){
+        return summaryDetail.volume.longFmt;
+    }
+
 
 }
