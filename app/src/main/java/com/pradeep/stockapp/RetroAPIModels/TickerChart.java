@@ -1,13 +1,21 @@
 package com.pradeep.stockapp.RetroAPIModels;
 
+import android.text.format.DateFormat;
+import android.util.Pair;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.github.mikephil.charting.data.CandleEntry;
 import com.google.gson.Gson;
+import com.guannan.simulateddata.entity.KLineItem;
 import com.pradeep.stockapp.graph.BaseResponse;
 
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 import java.util.TreeMap;
 
 import timber.log.Timber;
@@ -15,83 +23,58 @@ import timber.log.Timber;
 public class TickerChart extends BaseResponse {
 
     private Chart chart;
-    private TreeMap<Long, Float> points = new TreeMap<>();
 
-    @Nullable
-    public String getCurrency(){
-        try {
-            return chart.result.get(0).meta.currency;
-        } catch (NullPointerException e){
-            Timber.e(e);
-            return null;
+    ArrayList<String> xLabels = new ArrayList<>();
+    ArrayList<CandleEntry> data = new ArrayList<>();
+
+
+    public Pair<ArrayList<String>,ArrayList<CandleEntry>> getChartData(){
+
+        if (chart.error == null) {
+            if (data.size() == 0) {
+                for (int i=0;i<chart.result.get(0).timestamp.size();i++){
+                    xLabels.add(getDate(chart.result.get(0).timestamp.get(i)));
+
+                    //High low open close
+                    CandleEntry candleEntry = new CandleEntry(chart.result.get(0).timestamp.get(i),chart.result.get(0).indicators.quote.get(0).high.get(i),chart.result.get(0).indicators.quote.get(0).low.get(i),chart.result.get(0).indicators.quote.get(0).open.get(i),chart.result.get(0).indicators.quote.get(0).close.get(i));
+                    data.add(candleEntry);
+                }
+            }
         }
+        return new Pair<>(xLabels,data);
     }
 
-    @NonNull
-    public TreeMap<Long, Float> getPoints(){
-
-        if (!points.isEmpty())
-            return points;
-
-        List<Long> timestamps = getTimestampList();
-        if (timestamps == null) return points;
-        List<Float> values = getValueList();
-        if (values == null) return points;
-
-        for (int i = 0; i < timestamps.size(); i++)
-            points.put(timestamps.get(i), values.get(i));
-
-        return points;
+    public String getDate(Long time){
+        Calendar cal = Calendar.getInstance(Locale.ENGLISH);
+        cal.setTimeInMillis(time * 1000);
+        String date = DateFormat.format("yyyy-MM-dd", cal).toString();
+        return date;
     }
-
-    @Nullable
-    private List<Long> getTimestampList(){
-        try {
-            return chart.result.get(0).timestamp;
-        } catch (NullPointerException e){
-            Timber.e(e);
-            return null;
-        }
-    }
-
-    @Nullable
-    private List<Float> getValueList(){
-        try {
-            return chart.result.get(0).indicators.adjclose.get(0).adjclose;
-        } catch (NullPointerException e){
-            Timber.e(e);
-            return null;
-        }
-    }
-
-
-    @NonNull
-    public TreeMap<Long, Float> getChartData(){
-        Timber.d("getChartData = %s", new Gson().toJson(new TreeMap<>(Collections.unmodifiableMap(getPoints()))));
-        return new TreeMap<>(Collections.unmodifiableMap(getPoints()));
-    }
-
 
     class Chart {
         String error;
-        List<ResultItem> result;
+        List<TickerDetailChart.ResultItem> result;
     }
 
     class ResultItem {
-        TickerChartMeta meta;
+        //        TickerChartMeta meta;
         List<Long> timestamp;
-        Indicators indicators;
+        TickerDetailChart.Indicators indicators;
     }
-
-    class TickerChartMeta {
-        String currency;
-    }
+//
+//    class TickerChartMeta {
+//        String currency;
+//    }
 
     class Indicators {
-        List<AdjClose> adjclose;
+        List<TickerDetailChart.Quote> quote;
     }
 
-    class AdjClose {
-        List<Float> adjclose;
+    class Quote {
+        List<Float> open;
+        List<Float> high;
+        List<Float> close;
+        List<Long> volume;
+        List<Float> low;
     }
 }

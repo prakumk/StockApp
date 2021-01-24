@@ -12,12 +12,13 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-    <com.github.mikephil.charting.charts.LineChart
-        android:id="@+id/chart"
-        android:layout_width="match_parent"
-        android:layout_height="300dp"
-        tools:background="#eee" />
+        <com.github.mikephil.charting.charts.CandleStickChart
+            android:id="@+id/candle_stick_chart"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            />
     <LinearLayout
+        android:visibility="gone"
         android:id="@+id/graph_progress_internal"
         android:background="@color/white"
         android:gravity="center"
@@ -80,6 +81,7 @@
         </LinearLayout>
     </LinearLayout>
     <LinearLayout
+        android:visibility="gone"
         android:id="@+id/graph_progress"
         android:background="@color/white"
         android:gravity="center"
