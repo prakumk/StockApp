@@ -115,16 +115,6 @@ public class StockDetailsCharts extends AppCompatActivity
 
 
 
-//  private void initialData(final String json) {
-//    mProgressBar.setVisibility(View.VISIBLE);
-//    new Handler().postDelayed(new Runnable() {
-//      @Override
-//      public void run() {
-//        initData(json);
-//      }
-//    }, 500);
-//  }
-
   private void initViews() {
 
     mProgressBar = findViewById(R.id.progress_circular);
