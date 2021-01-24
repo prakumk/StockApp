@@ -59,8 +59,6 @@ public class StockDetailsCharts extends AppCompatActivity
   private ProgressBar mProgressBar;
   private FloatingActionButton fav_stock;
 
-  private int MAX_COLUMNS = 160;
-  private int MIN_COLUMNS = 20;
   private KSubChartView mMacdView;
 
   String stock_symbol;
