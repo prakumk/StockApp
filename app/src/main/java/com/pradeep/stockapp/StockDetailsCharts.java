@@ -125,7 +125,6 @@ public class StockDetailsCharts extends AppCompatActivity
   }
 
   public void getStockDetails(){
-      AppUtils.showToast(StockDetailsCharts.this,"Adding to watchlist");
       Single<TickerDetails> chartSingle = apiClient.fetchTickerDetails(stock_symbol);
       chartSingle.subscribeOn(Schedulers.io())
               .observeOn(AndroidSchedulers.mainThread())

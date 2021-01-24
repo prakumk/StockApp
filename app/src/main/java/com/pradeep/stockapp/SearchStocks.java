@@ -1,21 +1,27 @@
 package com.pradeep.stockapp;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.appcompat.widget.SearchView;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
 import com.pradeep.stockapp.common.AppUtils;
 import com.pradeep.stockapp.custom_components.RoomItemClickListner;
+import com.pradeep.stockapp.custom_components.SimpleListDividerDecorator;
 import com.pradeep.stockapp.retrofit_api.ApiClient;
 import com.pradeep.stockapp.retrofit_api.APIResponse;
 import com.pradeep.stockapp.retrofit_api.RetroStockModel;
@@ -54,9 +60,21 @@ public class SearchStocks extends AppCompatActivity implements RoomItemClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_stocks);
         setTitle("Search New Stock");
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
         all_stocks=new ArrayList<>();
         apiClient = ApiClient.getClient().create(RetrofitInterface.class);
         initView();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                this.finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void initView() {
@@ -66,6 +84,8 @@ public class SearchStocks extends AppCompatActivity implements RoomItemClickList
         progress_bar = findViewById(R.id.progress_bar);
 
         recyclerView = findViewById(R.id.recycler_view);
+        Drawable v = ContextCompat.getDrawable(this, R.drawable.list_divider_h);
+        recyclerView.addItemDecoration(new SimpleListDividerDecorator(v, true));
 
         searchView_new.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override

@@ -2,12 +2,14 @@ package com.pradeep.stockapp;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 
@@ -52,11 +54,25 @@ public class StockDetails extends AppCompatActivity {
         setContentView(R.layout.activity_stock_details);
         stock_symbol  = getIntent().getStringExtra(AppUtils.STOCK_SYMBOL_EXTRA);
         setTitle("Details ("+stock_symbol+")");
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
         apiClient = ApiClient.getClient().create(RetrofitInterface.class);
         stockRepository = new StockRepository(this);
         initView();
 
     }
+
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                this.finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 
     private void initView() {
         chart = findViewById(R.id.chart);

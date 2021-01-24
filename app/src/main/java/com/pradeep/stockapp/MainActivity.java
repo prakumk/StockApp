@@ -198,7 +198,7 @@ public class MainActivity extends AppCompatActivity implements RoomItemClickList
 
         AlertDialog.Builder alt_bld = new AlertDialog.Builder(this);
         //alt_bld.setIcon(R.drawable.icon);
-        alt_bld.setTitle("Select a Group Name");
+        alt_bld.setTitle("Sort by :");
         alt_bld.setSingleChoiceItems(grpname, checked_sorted, new DialogInterface
                 .OnClickListener() {
             public void onClick(DialogInterface dialog, int item) {
