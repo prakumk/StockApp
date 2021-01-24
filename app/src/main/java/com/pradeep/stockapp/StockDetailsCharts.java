@@ -20,9 +20,21 @@ import com.guannan.chartmodule.helper.TechParamType;
 import com.guannan.chartmodule.inter.IChartDataCountListener;
 import com.guannan.chartmodule.inter.IPressChangeListener;
 import com.guannan.simulateddata.LocalUtils;
+import com.guannan.simulateddata.entity.KLineItem;
 import com.guannan.simulateddata.parser.KLineParser;
+import com.pradeep.stockapp.RetroAPIModels.TickerDetailChart;
+import com.pradeep.stockapp.common.AppUtils;
+import com.pradeep.stockapp.retrofit_api.ApiClient;
+import com.pradeep.stockapp.retrofit_api.RetrofitInterface;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import io.reactivex.Single;
+import io.reactivex.SingleObserver;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 public class StockDetailsCharts extends AppCompatActivity
     implements IChartDataCountListener<List<KLineToDrawItem>>, IPressChangeListener,
@@ -38,11 +50,16 @@ public class StockDetailsCharts extends AppCompatActivity
   private int MIN_COLUMNS = 20;
   private KSubChartView mMacdView;
 
+  String stock_symbol;
+  RetrofitInterface apiClient;
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_stock_details_charts);
-
+    stock_symbol  = getIntent().getStringExtra(AppUtils.STOCK_SYMBOL_EXTRA);
+    setTitle("Details ("+stock_symbol+")");
+    apiClient = ApiClient.getClient().create(RetrofitInterface.class);
     initViews();
 
     mMarketFigureChart = findViewById(R.id.chart_container);
@@ -59,15 +76,15 @@ public class StockDetailsCharts extends AppCompatActivity
     mMarketFigureChart.setPressChangeListener(this);
   }
 
-  private void initialData(final String json) {
-    mProgressBar.setVisibility(View.VISIBLE);
-    new Handler().postDelayed(new Runnable() {
-      @Override
-      public void run() {
-        initData(json);
-      }
-    }, 500);
-  }
+//  private void initialData(final String json) {
+//    mProgressBar.setVisibility(View.VISIBLE);
+//    new Handler().postDelayed(new Runnable() {
+//      @Override
+//      public void run() {
+//        initData(json);
+//      }
+//    }, 500);
+//  }
 
   private void initViews() {
 
@@ -75,22 +92,63 @@ public class StockDetailsCharts extends AppCompatActivity
     RadioGroup radioGroup = findViewById(R.id.rbtn_group);
     radioGroup.setOnCheckedChangeListener(this);
     radioGroup.check(R.id.rbtn_15);
+    getChartData("5m","1d");
+  }
+
+  public void getChartData(String interval,String range){
+    mProgressBar.setVisibility(View.VISIBLE);
+    Single<TickerDetailChart> chartSingle = apiClient.fetchTickerChartDetails(stock_symbol,interval,range);
+    chartSingle.subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(new SingleObserver<TickerDetailChart>() {
+              @Override
+              public void onSubscribe(Disposable d) {
+              }
+
+              @Override
+              public void onSuccess(TickerDetailChart tickerChart) {
+                mProgressBar.setVisibility(View.GONE);
+                if(tickerChart.getError() == null) {
+                  initData(tickerChart.getChartData());
+//                  setChart(chart, tickerChart);
+                }
+                else
+                {
+                  AppUtils.showToast(StockDetailsCharts.this,"Some Error occurred while loading data");
+                }
+              }
+
+              @Override
+              public void onError(Throwable e) {
+                AppUtils.showToast(StockDetailsCharts.this,"Some Error occurred while loading data");
+              }
+            });
+  }
+
+
+  public void initData(ArrayList<KLineItem> json) {
+
+    if (mHelper == null) {
+      mHelper = new ChartDataSourceHelper(this);
+    }
+    mProgressBar.setVisibility(View.GONE);
+    mHelper.initKDrawData(json, mKLineChartView, mVolumeView, mMacdView);
   }
 
   @Override
   public void onCheckedChanged(RadioGroup group, int checkedId) {
     switch (checkedId) {
       case R.id.rbtn_15:
-        initialData("slw_k.json");
+//        initialData("slw_k.json");
         break;
       case R.id.rbtn_1h:
-        initialData("geli.json");
+//        initialData("geli.json");
         break;
       case R.id.rbtn_4h:
-        initialData("maotai.json");
+//        initialData("maotai.json");
         break;
       case R.id.rbtn_1d:
-        initialData("pingan.json");
+//        initialData("pingan.json");
         break;
     }
   }
