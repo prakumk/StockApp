@@ -287,7 +287,7 @@ public class StockDetailsCharts extends AppCompatActivity
         break;
       case R.id.rbtn_1h:
 //          getChartData("5m","1d");
-        getChartData("60m","5d");
+        getChartData("5m","5d");
 //        initialData("geli.json");
         break;
       case R.id.rbtn_4h:
@@ -344,11 +344,11 @@ public class StockDetailsCharts extends AppCompatActivity
 
   @Override
   public void onChartScale(MotionEvent me, float scaleX, float scaleY) {
-    ChartDataSourceHelper.K_D_COLUMNS = (int) (ChartDataSourceHelper.K_D_COLUMNS / scaleX);
-    ChartDataSourceHelper.K_D_COLUMNS =
-        Math.max(MIN_COLUMNS, Math.min(MAX_COLUMNS, ChartDataSourceHelper.K_D_COLUMNS));
-    if (mHelper != null) {
-      mHelper.initKMoveDrawData(0, ChartDataSourceHelper.SourceType.SCALE);
-    }
+//    ChartDataSourceHelper.K_D_COLUMNS = (int) (ChartDataSourceHelper.K_D_COLUMNS / scaleX);
+//    ChartDataSourceHelper.K_D_COLUMNS =
+//        Math.max(MIN_COLUMNS, Math.min(MAX_COLUMNS, ChartDataSourceHelper.K_D_COLUMNS));
+//    if (mHelper != null) {
+//      mHelper.initKMoveDrawData(0, ChartDataSourceHelper.SourceType.SCALE);
+//    }
   }
 }
