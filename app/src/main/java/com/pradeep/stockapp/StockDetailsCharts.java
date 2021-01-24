@@ -283,40 +283,20 @@ public class StockDetailsCharts extends AppCompatActivity
     switch (checkedId) {
       case R.id.rbtn_15:
         getChartData("5m","1d");
-//        initialData("slw_k.json");
         break;
       case R.id.rbtn_1h:
-//          getChartData("5m","1d");
         getChartData("5m","5d");
-//        initialData("geli.json");
         break;
       case R.id.rbtn_4h:
         getChartData("1d","6mo");
-//        initialData("maotai.json");
         break;
       case R.id.rbtn_1d:
         getChartData("1d","1y");
-//        initialData("pingan.json");
       case R.id.rbtn_5y:
         getChartData("1d","5y");
         break;
     }
   }
-//
-//  public void initData(String json) {
-//
-//    String kJson = LocalUtils.getFromAssets(this, json);
-//
-//    KLineParser parser = new KLineParser(kJson);
-//    parser.parseKlineData();
-//
-//    if (mHelper == null) {
-//      mHelper = new ChartDataSourceHelper(this);
-//    }
-//    mProgressBar.setVisibility(View.GONE);
-//    mHelper.initKDrawData(parser.klineList, mKLineChartView, mVolumeView, mMacdView);
-//  }
-
 
   @Override
   public void onReady(List<KLineToDrawItem> data, ExtremeValue extremeValue,
