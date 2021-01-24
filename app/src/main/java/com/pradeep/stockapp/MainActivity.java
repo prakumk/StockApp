@@ -200,6 +200,11 @@ public class MainActivity extends AppCompatActivity implements RoomItemClickList
         startActivity(i);
     }
 
+    @Override
+    public void onItemLongClick(String symbol) {
+        AppUtils.showToast(this,"Long clicked");
+    }
+
     private void showSortDialog(){
         String[] grpname = {"Sort by added","Sort by % increase"};
 

@@ -144,7 +144,7 @@ public class KSubChartView extends BaseChartView {
    */
   private void drawVolumeDes(Canvas canvas, RectF contentRect, KLineToDrawItem item) {
     long volume = item.klineItem.volume;
-    String volumeDes = "成交量:" + NumFormatUtils.formatBigFloatAll(volume, 2);
+    String volumeDes = "Volume:" + NumFormatUtils.formatBigFloatAll(volume, 2);
     canvas.drawText(volumeDes, contentRect.left, contentRect.top - TEXT_PADDING,
         PaintUtils.TEXT_PAINT);
   }

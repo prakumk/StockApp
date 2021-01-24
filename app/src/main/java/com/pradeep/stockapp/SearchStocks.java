@@ -165,4 +165,10 @@ public class SearchStocks extends AppCompatActivity implements RoomItemClickList
         startActivity(i);
         finish();
     }
+
+
+    @Override
+    public void onItemLongClick(String symbol) {
+        AppUtils.showToast(this,"Long clicked");
+    }
 }

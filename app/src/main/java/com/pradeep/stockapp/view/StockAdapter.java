@@ -45,6 +45,13 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.stockViewHol
                 roomItemClickListner.onItemClick((String)view.getTag());
             }
         });
+        view.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                roomItemClickListner.onItemLongClick((String)view.getTag());
+                return true;
+            }
+        });
         return new stockViewHolder(view);
     }
 
