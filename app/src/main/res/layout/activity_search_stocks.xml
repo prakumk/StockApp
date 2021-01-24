@@ -10,8 +10,15 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-            <LinearLayout
+
+            <androidx.cardview.widget.CardView
                 android:layout_marginTop="8dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                app:cardPreventCornerOverlap="false"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent">
+            <LinearLayout
                 android:gravity="center_vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -24,6 +31,7 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginEnd="8dp" />
             </LinearLayout>
+            </androidx.cardview.widget.CardView>
 
             <FrameLayout
                 android:orientation="vertical"
