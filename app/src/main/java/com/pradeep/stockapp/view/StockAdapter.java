@@ -72,12 +72,12 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.stockViewHol
 
         }
         if(diff>=0){
-            String text = "+"+String.format("%.2f", diff)+" ("+String.format("%.2f", per)+"%)";
+            String text = "+"+String.format("%.2f", diff)+" ("+String.format("%.2f", Math.abs(per))+"%)";
             holder.diff.setText(text);
         }
         else
         {
-            String text = ""+String.format("%.2f", diff)+" ("+String.format("%.2f", per)+"%)";
+            String text = ""+String.format("%.2f", diff)+" ("+String.format("%.2f", Math.abs(per))+"%)";
             holder.diff.setText(text);
         }
         holder.view.setTag(filteredNameList.get(position).getSymbol());

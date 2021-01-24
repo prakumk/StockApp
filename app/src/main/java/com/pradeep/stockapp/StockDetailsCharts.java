@@ -171,12 +171,12 @@ public class StockDetailsCharts extends AppCompatActivity
 
         }
         if(diff>=0){
-          String text = "+"+String.format("%.2f", diff)+" ("+String.format("%.2f", per)+"%)";
+          String text = "+"+String.format("%.2f", diff)+" ("+String.format("%.2f", Math.abs(per))+"%)";
           high_low.setText(text);
         }
         else
         {
-          String text = ""+String.format("%.2f", diff)+" ("+String.format("%.2f", per)+"%)";
+          String text = ""+String.format("%.2f", diff)+" ("+String.format("%.2f", Math.abs(per))+"%)";
           high_low.setText(text);
         }
         high.setText("High : "+String.format("%.2f", tickerDetails.getDayHigh()));
@@ -267,7 +267,8 @@ public class StockDetailsCharts extends AppCompatActivity
 //        initialData("slw_k.json");
         break;
       case R.id.rbtn_1h:
-        getChartData("60m","5d");
+          getChartData("5m","1d");
+//        getChartData("60m","5d");
 //        initialData("geli.json");
         break;
       case R.id.rbtn_4h:

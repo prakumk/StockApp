@@ -26,6 +26,7 @@ import com.pradeep.stockapp.custom_components.RoomItemClickListner;
 import com.pradeep.stockapp.custom_components.SimpleListDividerDecorator;
 import com.pradeep.stockapp.room_db.StockModel;
 import com.pradeep.stockapp.room_db.StockRepository;
+import com.pradeep.stockapp.service.MyJobService;
 import com.pradeep.stockapp.view.StockAdapter;
 
 import java.util.ArrayList;
@@ -55,6 +56,11 @@ public class MainActivity extends AppCompatActivity implements RoomItemClickList
         stockRepository = new StockRepository(this);
         checked_sorted = 0;
         initView();
+        initAutoUpdateService();
+    }
+
+    private void initAutoUpdateService() {
+        MyJobService.startMyJobService(this);
     }
 
     private void initView() {
