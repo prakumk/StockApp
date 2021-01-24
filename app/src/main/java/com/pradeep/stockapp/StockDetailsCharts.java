@@ -3,13 +3,16 @@ package com.pradeep.stockapp;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
@@ -78,6 +81,8 @@ public class StockDetailsCharts extends AppCompatActivity
     setContentView(R.layout.activity_stock_details_charts);
     stock_symbol  = getIntent().getStringExtra(AppUtils.STOCK_SYMBOL_EXTRA);
     setTitle("Details ("+stock_symbol+")");
+    ActionBar actionBar = getSupportActionBar();
+    actionBar.setDisplayHomeAsUpEnabled(true);
     apiClient = ApiClient.getClient().create(RetrofitInterface.class);
     stockRepository = new StockRepository(this);
     initViews();
@@ -95,6 +100,20 @@ public class StockDetailsCharts extends AppCompatActivity
 
     mMarketFigureChart.setPressChangeListener(this);
   }
+
+
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                this.finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
 
 //  private void initialData(final String json) {
 //    mProgressBar.setVisibility(View.VISIBLE);

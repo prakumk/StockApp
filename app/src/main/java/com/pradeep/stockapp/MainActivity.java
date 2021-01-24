@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements RoomItemClickList
     }
 
     private void initAutoUpdateService() {
-        MyJobService.startMyJobService(this);
+//        MyJobService.startMyJobService(this);
     }
 
     private void initView() {

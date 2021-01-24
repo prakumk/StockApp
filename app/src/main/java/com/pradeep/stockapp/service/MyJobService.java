@@ -101,11 +101,12 @@ public class MyJobService extends JobService {
                         stockModel.setRate(tickerDetails.getPreviousClose());
                         stockModel.setCurr_rate(tickerDetails.getCurrentPrice());
                         stockRepository.updateStock(stockModel);
+//                        AppUtils.updateStocks(getApplicationContext());
                     }
 
                     @Override
                     public void onError(Throwable e) {
                     }
-                });
+        });
     }
 }
