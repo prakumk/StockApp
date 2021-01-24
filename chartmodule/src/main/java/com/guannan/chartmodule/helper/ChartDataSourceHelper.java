@@ -355,7 +355,7 @@ public class ChartDataSourceHelper {
   private ExtremeValue countMaxMinValue() {
     List<TechItem> listParams = mTechParamsHelper.listParams;
     for (int i = startIndex; i < endIndex; i++) {
-      KLineItem kLineItem = mKList.get(i);
+      KLineItem kLineItem = i>=mKList.size()?  mKList.get(mKList.size()-1) : mKList.get(i);
       if (kLineItem != null) {
         if (kLineItem.high > maxPrice) {
           maxPrice = kLineItem.high;
@@ -368,7 +368,7 @@ public class ChartDataSourceHelper {
         }
       }
       // 计算MACD最大值最小值
-      TechItem techItem = listParams.get(i);
+      TechItem techItem = i>=listParams.size() ? listParams.get(listParams.size()-1) :listParams.get(i);
       TechParamsHelper.Limit limit = mTechParamsHelper.getLimitValue(techItem, TechParamType.MACD);
       if (limit.max > maxMacd) {
         maxMacd = limit.max;

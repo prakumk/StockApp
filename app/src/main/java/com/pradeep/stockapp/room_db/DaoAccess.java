@@ -20,6 +20,10 @@ public interface DaoAccess {
     LiveData<List<StockModel>> fetchAllStocks();
 
 
+    @Query("SELECT *,((curr_rate - rate)/rate) AS difference FROM StockModel ORDER BY difference desc")
+    LiveData<List<StockModel>> fetchAllStocksSorted();
+
+
     @Query("SELECT * FROM StockModel WHERE id =:taskId")
     LiveData<StockModel> getStock(int taskId);
 

@@ -88,6 +88,11 @@ public class StockRepository {
     }
 
 
+    public LiveData<List<StockModel>> getStocksSorted() {
+        return stockDatabase.daoAccess().fetchAllStocksSorted();
+    }
+
+
     public LiveData<StockModel> getStock(String symbol) {
         return stockDatabase.daoAccess().getStock(symbol);
     }

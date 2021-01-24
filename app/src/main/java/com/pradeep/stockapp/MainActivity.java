@@ -1,6 +1,7 @@
 package com.pradeep.stockapp;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.core.content.ContextCompat;
@@ -10,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.drawable.Drawable;
@@ -41,6 +43,7 @@ public class MainActivity extends AppCompatActivity implements RoomItemClickList
     private FloatingActionButton add_new_stock;
     StockRepository stockRepository ;
     BroadcastReceiver broadcastReceiver;
+    private int checked_sorted;
 
     private List<StockModel> all_stocks=new ArrayList<>();
 
@@ -50,6 +53,7 @@ public class MainActivity extends AppCompatActivity implements RoomItemClickList
         setContentView(R.layout.activity_main);
         setTitle("StockApp (WatchList)");
         stockRepository = new StockRepository(this);
+        checked_sorted = 0;
         initView();
     }
 
@@ -91,6 +95,12 @@ public class MainActivity extends AppCompatActivity implements RoomItemClickList
             }
         });
         initFab();
+        findViewById(R.id.sort_icon).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showSortDialog();
+            }
+        });
     }
 
     private void initFab() {
@@ -182,4 +192,44 @@ public class MainActivity extends AppCompatActivity implements RoomItemClickList
         i.putExtra(AppUtils.STOCK_SYMBOL_EXTRA,symbol);
         startActivity(i);
     }
+
+    private void showSortDialog(){
+        String[] grpname = {"Sort by added","Sort by % increase"};
+
+        AlertDialog.Builder alt_bld = new AlertDialog.Builder(this);
+        //alt_bld.setIcon(R.drawable.icon);
+        alt_bld.setTitle("Select a Group Name");
+        alt_bld.setSingleChoiceItems(grpname, checked_sorted, new DialogInterface
+                .OnClickListener() {
+            public void onClick(DialogInterface dialog, int item) {
+                checked_sorted = item;
+                Toast.makeText(getApplicationContext(),
+                        "Sorting by : "+grpname[item], Toast.LENGTH_SHORT).show();
+                showSorted(item);
+                dialog.dismiss();// dismiss the alertbox after chose option
+
+            }
+        });
+        AlertDialog alert = alt_bld.create();
+        alert.show();
+
+    }
+
+    private void showSorted(int num){
+        if (num == 0)
+        {
+            getAllStocks();
+        }
+        else
+        {
+            stockRepository.getStocksSorted().observe(this, new Observer<List<StockModel>>() {
+                @Override
+                public void onChanged(@Nullable List<StockModel> stocks) {
+                    initRecyclerView(stocks);
+                }
+            });
+        }
+    }
+
+
 }

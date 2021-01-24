@@ -28,22 +28,22 @@ public class NumFormatUtils {
       if (d > -1E4) {
         return formatFloat(d, 0) + "";
       } else if (d > -1E8) {
-        return formatFloat((float) (d / 1E4), digits) + "万";
+        return formatFloat((float) (d / 1E4), digits) + "Million";
       } else {
-        return formatFloat((float) (d / 1E8), digits) + "亿";
+        return formatFloat((float) (d / 1E8), digits) + "Billion";
       }
     } else {
       if (d < 1E4) {
         return formatFloat(d, 0) + "";
       } else if (d < 1E8) {
-        return formatFloat((float) (d / 1E4), digits) + "万";
+        return formatFloat((float) (d / 1E4), digits) + "Million";
       } else if (d < 1E12) {
-        return formatFloat((float) (d / 1E8), digits) + "亿";
+        return formatFloat((float) (d / 1E8), digits) + "Billion";
       } else {
         if (d < 1E13) {
-          return formatFloat((float) (d / 1E8), digits) + "亿";
+          return formatFloat((float) (d / 1E8), digits) + "Billion";
         } else {
-          return formatFloat((float) (d / 1E12), digits) + "万亿";
+          return formatFloat((float) (d / 1E12), digits) + "Trillion";
         }
       }
     }
